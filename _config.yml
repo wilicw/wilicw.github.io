@@ -1,11 +1,11 @@
-name: William's Blog
+name: T.W. Chang's Blog
 description: >
-    William's Blog
+    Something about network or programming.
 about: >
-    I don't think I can write this.
+    A student study in High School and do nothing.
 
 master_repo: true
-url: "http://wilicw.github.io"
+url: "https://wilicw.github.io"
 markdown: kramdown
 highlighter: rouge
 
@@ -13,14 +13,14 @@ plugins: ['jekyll-paginate', 'jekyll-gist', 'jekyll-feed']
 
 paginate: 4
 
-logo:             logo.png
+logo: logo.png
 disqus_shortname:
 
 rtl: false
 owner:
-  name:           William Chang
-  avatar:         ""
-  email:          "wilicw1346+blog@gmail.com"
+  name: William Chang
+  avatar: ""
+  email: "wilicw1346+blog@gmail.com"
   # Social networking links used in footer. Update and remove as you like.
   twitter: wilicw
   github: https://github.com/wilicw
