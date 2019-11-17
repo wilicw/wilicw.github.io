@@ -9,6 +9,16 @@ comments: false
 
 # Overviews
 
+108 14屆資安技能金盾獎
+
+Team: `ROH`
+
+Rank: `3`
+
+Score: `?` scoreboard 被關了啦
+
+~~家樂福禮券受害者~~
+
 我們這隊只有解出三題，題目跟通靈沒兩樣，都靠隊友 carry ，這裡就來寫一下 `Game 4` `Game 7` `Game 8`
 
 最後意外的拿到第三，而 CSY 毫無疑問的拿了第一
