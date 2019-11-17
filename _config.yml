@@ -1,10 +1,7 @@
 name: T.W. Chang's Blog
 description: >
     Something about network or programming.
-about: >
-    TAIVS 110 DACSC 21st
-    A student study in High School and do nothing.
-
+about: 
 master_repo: true
 url: "https://wilicw.github.io"
 markdown: kramdown
