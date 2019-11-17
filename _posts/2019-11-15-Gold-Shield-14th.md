@@ -32,7 +32,7 @@ comments: false
 
 用 wireshark 打開封包，會看到 `enable password 7 07282E404A434B55464B`
 
-碰過 cisco packet teacer 應該都知道這種是 type 7 的加密，在網路上找 `Cisco Type 7 Password Decrypt` 來解
+碰過 cisco packet tracer 應該都知道這種是 type 7 的加密，在網路上找 `Cisco Type 7 Password Decrypt` 來解
 
 ### Flag
 ```
