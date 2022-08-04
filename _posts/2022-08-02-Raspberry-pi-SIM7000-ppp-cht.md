@@ -27,11 +27,11 @@ comments: false
 Connect the module to Raspberry pi with USB cable.
 
 ```
-┌────────────────────────┐         ┌───────────────┐
-│                        │   USB   │               │
-│  Raspberry pi Zero W   ├─────────►   SIM7000C    │
-│                        │         │               │
-└────────────────────────┘         └───────────────┘
+┌───────────────┐          ┌─────────┐
+│                         │   USB    │               │
+│  Raspberry pi Zero W    ├──────┤   SIM7000C    │
+│                         │          │               │
+└───────────────┘          └─────────┘
 ```
 
 # Linux Setting
