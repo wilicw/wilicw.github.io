@@ -1,7 +1,7 @@
 ---
 layout: post
-title: "Raspberry Pi 與 SIM7000 模組 PPP 連線設定 | Connection between Raspberry Pi and SIM7000 module via PPP"
-description: "於 Raspberry Pi 中利用 PPP 協定連接 SIM7000，以中華電信 Cat-M1 為例 | Connect SIM7000 using PPP in Raspberry Pi. Take Chunghwa Telecom (CHT) Cat-M1 service as an example use case."
+title: "Raspberry Pi 與 SIM7000 PPP 連線設定"
+description: "於 Raspberry Pi 中利用 PPP 協定連接 SIM7000，以中華電信 Cat-M1 為例"
 category: articles
 tags: [cat-m1, CHT, Raspberry Pi, iot, ppp, sim7000]
 comments: false
