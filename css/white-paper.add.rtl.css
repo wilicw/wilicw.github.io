@@ -401,6 +401,7 @@ h4 {
 
 .pagination {
   text-align: left;
+  margin-bottom: 1em;
 }
 
 .figure {
@@ -430,7 +431,7 @@ h4 {
 }
 
 .figure small strong {
-  text-transform: uppercase;
+  /* text-transform: uppercase; */
 }
 
 .figure img {
