@@ -12,22 +12,11 @@ plugins: ['jekyll-paginate', 'jekyll-gist', 'jekyll-feed']
 paginate: 4
 
 logo: logo.png
-disqus_shortname:
 
 rtl: false
 owner:
   name: William Chang
-  avatar: ""
-  email: "wilicw1346+blog@gmail.com"
-  # Social networking links used in footer. Update and remove as you like.
+  avatar: "https://avatars.githubusercontent.com/u/18641285"
+  email: "me@wilicw.dev"
   twitter: wilicw
   github: https://github.com/wilicw
-  #linkedin: https://www.linkedin.com/in/william-chang-127b6715b/
-  # For Google Authorship https://plus.google.com/authorship
-  google_plus:
-
-# Analytics and webmaster tools stuff goes here
-google_analytics:
-google_verify:
-# https://ssl.bing.com/webmaster/configure/verify/ownership Option 2 content= goes here
-bing_verify:
