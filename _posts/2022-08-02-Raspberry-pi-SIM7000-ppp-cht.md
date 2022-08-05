@@ -1,9 +1,9 @@
 ---
 layout: post
-title: "Raspberry pi 與 SIM7000 模組 PPP 連線設定 | Connection between Raspberry pi and SIM7000 module via PPP"
-description: "於 Raspberry pi 中利用 PPP 協定連接 SIM7000，以中華電信 Cat-M1 為例 | Connect SIM7000 using PPP in Raspberry pi. Take Chunghwa Telecom (CHT) Cat-M1 service as an example use case."
+title: "Raspberry Pi 與 SIM7000 模組 PPP 連線設定 | Connection between Raspberry Pi and SIM7000 module via PPP"
+description: "於 Raspberry Pi 中利用 PPP 協定連接 SIM7000，以中華電信 Cat-M1 為例 | Connect SIM7000 using PPP in Raspberry Pi. Take Chunghwa Telecom (CHT) Cat-M1 service as an example use case."
 category: articles
-tags: [cat-m1, CHT, Raspberry pi, iot, ppp, sim7000]
+tags: [cat-m1, CHT, Raspberry Pi, iot, ppp, sim7000]
 comments: false
 ---
 
@@ -11,40 +11,40 @@ comments: false
 
 ## Hardwares
 
-- Raspberry pi Zero W
+- Raspberry Pi Zero W
 - SIM7000C Module with USB port
 - USB cables
 - A SIM card
 
 ## Softwares
 
-- Raspberry pi OS (Other Linux distro work just fine)
+- Raspberry Pi OS (Other Linux distro works just fine)
 - ppp
-- minicom (optional)
+- Serial Console (optional)
 
 ## Hardware Connection
 
-Connect the module to Raspberry pi with USB cable.
+Connect the module to Raspberry Pi with USB cable.
 
 ```
-┌───────────────┐          ┌─────────┐
-│                         │   USB    │               │
-│  Raspberry pi Zero W    ├──────┤   SIM7000C    │
-│                         │          │               │
-└───────────────┘          └─────────┘
++------------------+
+|                  |   USB   +----------+
+|   Raspberry Pi   | <-------+ SIM7000C |
+|                  |         +----------+
++------------------+
 ```
 
 # Linux Setting
 
 ## Package Installation
 
-Some linux distro may already have `ppp` package install. But in Raspberry pi OS you have to download it using package manager (`apt` in the case).
+Some linux distro may already have `ppp` package installed. But in Raspberry Pi OS you have to download it using package manager (`apt` in the case).
 
 ```bash
 $ sudo apt install ppp
 ```
 
-If you want to manually configure the module, you probably need a serial console like `minicom` or `screen`. Both these softwares are available on apt pool.
+If you want to manually configure the module, you probably need a serial console like `minicom` or `screen`. Both of these softwares are available on apt.
 
 ```bash
 $ sudo apt install minicom # or screen
@@ -52,7 +52,7 @@ $ sudo apt install minicom # or screen
 
 ## Connect to the module
 
-When you plug-in the module. System will automatically appears 5 USB device in the /dev folder.
+When you plug-in the module. System will automatically appears 5 USB devices in the `/dev` folder.
 
 ```bash
 $ ls -l /dev | grep USB
@@ -63,7 +63,7 @@ crw-rw---- 1 root dialout 188,   3 Aug  4 13:32 ttyUSB3
 crw-rw---- 1 root dialout 188,   4 Aug  4  2022 ttyUSB4
 ```
 
-In [this document (SIM7000 Series Linux User Guide_V2.00) from SIMCOM](https://github.com/botletics/SIM7000-LTE-Shield/blob/master/SIM7000%20Documentation/Technical%20Documents/SIM7000%20Series%20Linux%20User%20Guide_V2.00.pdf) we can find a table about the **SIM7000 USB Description**. Each USB device provide different functions describe by following table.
+In [this document (SIM7000 Series Linux User Guide_V2.00) from SIMCOM](https://github.com/botletics/SIM7000-LTE-Shield/blob/master/SIM7000%20Documentation/Technical%20Documents/SIM7000%20Series%20Linux%20User%20Guide_V2.00.pdf) we can find a table about the **SIM7000 USB Description**. Each USB device provides different functions describe by following table.
 
 | **USB Device** | **Interface** |
 |----------------|---------------|
@@ -72,5 +72,7 @@ In [this document (SIM7000 Series Linux User Guide_V2.00) from SIMCOM](https://g
 | /dev/ttyUSB2   | AT            |
 | /dev/ttyUSB3   | Modem         |
 | /dev/ttyUSB4   | USB Audio     |
+
+---
 
 # To be continued...
