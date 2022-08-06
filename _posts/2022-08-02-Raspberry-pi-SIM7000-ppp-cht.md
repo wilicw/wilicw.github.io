@@ -7,6 +7,8 @@ tags: [cat-m1, CHT, Raspberry Pi, iot, ppp, sim7000]
 comments: false
 ---
 
+![SIM7000C Module](../files/rasp/SIM7000C.jpg)
+
 # Devices & Software
 
 ## Hardwares
@@ -75,9 +77,9 @@ In [this document (SIM7000 Series Linux User Guide_V2.00) from SIMCOM](https://g
 
 ## PPP Configuration
 
-When we want to establish a ppp connection. We need to create 2 config files, the chatscript and the peer provider file.
+When we want to establish a ppp connection. We need to create 2 config files, the chatscript and the peer provider's config.
 
-`/etc/ppp` directory's structure can observed via `tree` command.
+`/etc/ppp` directory's structure can observed using `tree` command, it contants interfaces and provider's configs.
 
 ```bash
 $ tree /etc/ppp
@@ -107,7 +109,7 @@ $ tree /etc/ppp
 
 ### Chatscript
 
-First, create a chatscript to communicate with the SIM7000 module. We can copy the template from `/etc/chatscripts/gprs` to `/etc/ppp/sim7000`. Open copied file and change the APN to `internet.iot` (The CHT's APN).
+First, create a chatscript that execute the AT commands on SIM7000 module. We can copy the template from `/etc/chatscripts/gprs` to `/etc/ppp/sim7000`. Open copied file and change the APN to `internet.iot` (The CHT's APN).
 
 ```bash
 $ ls -l /etc/chatscripts/
@@ -126,34 +128,34 @@ $ sudo vim /etc/ppp/sim7000
 
 ### Peer Provider Config
 
-In `/etc/ppp/peers/` have a provider file. Copy it and rename into anything you want (e.x. sim7000) in the same folder. Open the file and do the following configurations.
+In `/etc/ppp/peers/` have a `provider` file. Copy it and rename into anything you want (e.g. sim7000) in the same folder. Open the file and do the following three modifications.
 
 ```bash
 $ sudo cp /etc/ppp/peers/provider /etc/ppp/peers/sim7000
 $ sudo vim /etc/ppp/peers/sim7000
 ```
 
-#### Replace the chatscript's path
+#### 1. Replace the chatscript's path
 
-```vim
+```
  12 # MUST CHANGE: replace ******** with the phone number of your provider.
  13 # The /etc/chatscripts/pap chat script may be modified to change the
  14 # modem initialization string.
  15 connect "/usr/sbin/chat -v -f /etc/ppp/sim7000"
 ```
 
-#### Change the serial console port
+#### 2. Change the serial console port
 
-In USB devices section. We can see that the modem port is located at `/dev/ttyUSB3`.
+In USB devices section. We can see that the modem's port located in `/dev/ttyUSB3`.
 
-```vim
+```
  17 # Serial device to which the modem is connected.
  18 /dev/ttyUSB3
 ```
 
-#### Add few options
+#### 3. Add few options
 
-```vim
+```
  23 debug
  24 nocrtscts
  25 nodetach
@@ -163,7 +165,7 @@ In USB devices section. We can see that the modem port is located at `/dev/ttyUS
 
 ## Establish The Connection
 
-Use `pppd` to call the provider file (sim7000).
+Use `pppd` to call the provider's config  (`sim7000`).
 
 ```bash
 $ sudo pppd call sim7000
@@ -210,7 +212,7 @@ $ ip a
        valid_lft forever preferred_lft forever
 ```
 
-`ping` command specify the interface and send ICMP package. So we can use it to check our connection.
+But how can we actually know whether the IP can communicate with the public network? By simplify use `ping` command with `-I` argument with the interface name `ppp0`.
 
 ```bash
 $ ping -I ppp0 8.8.8.8 -c 4
@@ -227,11 +229,20 @@ rtt min/avg/max/mdev = 46.946/157.260/307.272/100.437 ms
 
 ## Systemd
 
+Now we want the connection automatically start when system startup. We can create a system daemon that dialing-up and log the debug information into the log file. 
+
+```yaml
+```
+
+ 
+
 # To be continued...
 
 ---
 
 # Appendix
+
+This section have some scripts been mentioned earlier in this article.
 
 ## PPP
 
@@ -277,7 +288,7 @@ TIMEOUT		22
 CONNECT		""
 ```
 
-Provider config (`/etc/ppp/peers/sim7000`)
+Provider's config (`/etc/ppp/peers/sim7000`)
 
 ```
 # example configuration for a dialup connection authenticated with PAP or CHAP
@@ -322,4 +333,3 @@ persist
 noauth
 ```
 
-## Systemd
