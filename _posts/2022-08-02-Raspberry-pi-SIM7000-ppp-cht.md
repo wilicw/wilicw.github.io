@@ -7,7 +7,7 @@ tags: [cat-m1, CHT, Raspberry Pi, iot, ppp, sim7000]
 comments: false
 ---
 
-![SIM7000C Module](../files/rasp/SIM7000C.jpg)
+![SIM7000C Module](/files/rasp/SIM7000C.jpg)
 
 # Devices & Software
 
@@ -212,7 +212,7 @@ $ ip a
        valid_lft forever preferred_lft forever
 ```
 
-But how can we actually know whether the IP can communicate with the public network? By simplify use `ping` command with `-I` argument with the interface name `ppp0`.
+But how can we actually know whether the IP can communicate with the public network? By simply use `ping` command with `-I` argument with the interface name `ppp0`.
 
 ```bash
 $ ping -I ppp0 8.8.8.8 -c 4
