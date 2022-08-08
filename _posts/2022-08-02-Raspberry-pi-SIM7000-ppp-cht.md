@@ -227,16 +227,75 @@ PING 8.8.8.8 (8.8.8.8) from 10.174.46.45 ppp0: 56(84) bytes of data.
 rtt min/avg/max/mdev = 46.946/157.260/307.272/100.437 ms
 ```
 
-## Systemd
+Use `ip` command to set the default route to `ppp0` interface. 
 
-Now we want the connection automatically start when system startup. We can create a system daemon that dialing-up and log the debug information into the log file. 
-
-```yaml
+```bash
+$ sudo ip route add default dev ppp0
 ```
 
- 
+Verify the routing path using `traceroute` command.
 
-# To be continued...
+```bash
+$ traceroute 8.8.8.8
+traceroute to 8.8.8.8 (8.8.8.8), 30 hops max, 60 byte packets
+ 1  10.156.65.128 (10.156.65.128)  318.093 ms  531.195 ms  530.528 ms
+ 2  10.156.65.1 (10.156.65.1)  440.673 ms 10.156.65.5 (10.156.65.5)  415.479 ms 10.156.65.1 (10.156.65.1)  439.359 ms
+ 3  * * *
+ 4  10.156.67.66 (10.156.67.66)  447.782 ms 10.156.67.65 (10.156.67.65)  481.002 ms  480.337 ms
+ 5  tpdb-3311.hinet.net (210.65.126.94)  479.690 ms tpdb-3312.hinet.net (210.65.126.98)  479.039 ms  488.838 ms
+ 6  tpdt-3032.hinet.net (220.128.4.190)  497.950 ms  70.715 ms tpdt-3032.hinet.net (220.128.2.250)  69.541 ms
+ 7  tylc-3032.hinet.net (220.128.9.33)  78.521 ms * *
+ 8  pcpd-3212.hinet.net (220.128.13.189)  120.847 ms 220-128-13-129.hinet-ip.hinet.net (220.128.13.129)  87.522 ms pcpd-4102.hinet.net (220.128.13.109)  120.041 ms
+ 9  72.14.202.162 (72.14.202.162)  119.585 ms 72.14.221.186 (72.14.221.186)  119.698 ms 142.250.171.152 (142.250.171.152)  140.647 ms
+10  * * *
+11  dns.google (8.8.8.8)  129.792 ms  87.433 ms  97.758 ms
+```
+
+## Systemd
+
+Now we want the connection automatically start when system startup. We can create a system daemon (`/etc/systemd/system/sim7000.service`) that dialing-up and log the debug information into the log file. 
+
+```yaml
+[Unit]
+Description=PPP SIM7000C dialing
+
+[Service]
+ExecStart=/usr/sbin/pppd call sim7000
+KillMode=process
+Restart=on-failure
+Type=simple
+
+[Install]
+WantedBy=multi-user.target
+Alias=sim7000.service
+```
+
+Reload the daemon and start it.
+
+ ```bash
+ $ sudo systemctl daemon-reload
+ $ sudo systemctl enable --now sim7000
+ $ sudo systemctl status sim7000
+ ● sim7000.service - PPP SIM7000C dialing
+      Loaded: loaded (/etc/systemd/system/sim7000.service; enabled; vendor preset: enabled)
+      Active: active (running) since Mon 2022-08-08 10:58:10 CST; 1min 4s ago
+    Main PID: 4174 (pppd)
+       Tasks: 1 (limit: 415)
+         CPU: 266ms
+      CGroup: /system.slice/sim7000.service
+              └─4174 /usr/sbin/pppd call sim7000
+ 
+ Aug 08 10:58:13 raspberrypi pppd[4174]: local  IP address 10.172.102.128
+ Aug 08 10:58:13 raspberrypi pppd[4174]: remote IP address 10.64.64.64
+ Aug 08 10:58:13 raspberrypi pppd[4174]: primary   DNS address 168.95.1.1
+ Aug 08 10:58:13 raspberrypi pppd[4174]: secondary DNS address 168.95.192.1
+ Aug 08 10:58:13 raspberrypi pppd[4174]: local  IP address 10.172.102.128
+ Aug 08 10:58:13 raspberrypi pppd[4174]: remote IP address 10.64.64.64
+ Aug 08 10:58:13 raspberrypi pppd[4174]: primary   DNS address 168.95.1.1
+ Aug 08 10:58:13 raspberrypi pppd[4174]: secondary DNS address 168.95.192.1
+ Aug 08 10:58:43 raspberrypi pppd[4174]: IPV6CP: timeout sending Config-Requests
+ Aug 08 10:58:43 raspberrypi pppd[4174]: IPV6CP: timeout sending Config-Requests
+ ```
 
 ---
 
