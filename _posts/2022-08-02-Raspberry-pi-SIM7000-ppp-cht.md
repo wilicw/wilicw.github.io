@@ -42,13 +42,13 @@ Connect the module to Raspberry Pi with USB cable.
 
 Some linux distro may already have `ppp` package installed. But in Raspberry Pi OS you have to download it using package manager (`apt` in the case).
 
-```bash
+```shell
 $ sudo apt install ppp
 ```
 
 If you want to manually configure the module, you probably need a serial console like `minicom` or `screen`. Both of these softwares are available on apt.
 
-```bash
+```shell
 $ sudo apt install minicom # or screen
 ```
 
@@ -56,7 +56,7 @@ $ sudo apt install minicom # or screen
 
 When you plug-in the module. System will automatically appears 5 USB devices in the `/dev` folder.
 
-```bash
+```shell
 $ ls -l /dev | grep USB
 crw-rw---- 1 root dialout 188,   0 Aug  4 13:32 ttyUSB0
 crw-rw---- 1 root dialout 188,   1 Aug  4  2022 ttyUSB1
@@ -81,7 +81,7 @@ When we want to establish a ppp connection. We need to create 2 config files, th
 
 `/etc/ppp` directory's structure can observed using `tree` command, it contants interfaces and provider's configs.
 
-```bash
+```shell
 $ tree /etc/ppp
 /etc/ppp
 ├── chap-secrets
@@ -111,7 +111,7 @@ $ tree /etc/ppp
 
 First, create a chatscript that execute the AT commands on SIM7000 module. We can copy the template from `/etc/chatscripts/gprs` to `/etc/ppp/sim7000`. Open copied file and change the APN to `internet.iot` (The CHT's APN).
 
-```bash
+```shell
 $ ls -l /etc/chatscripts/
 total 12
 -rw-r--r-- 1 root root 950 Jan  7  2021 gprs
@@ -130,7 +130,7 @@ $ sudo vim /etc/ppp/sim7000
 
 In `/etc/ppp/peers/` have a `provider` file. Copy it and rename into anything you want (e.g. sim7000) in the same folder. Open the file and do the following three modifications.
 
-```bash
+```shell
 $ sudo cp /etc/ppp/peers/provider /etc/ppp/peers/sim7000
 $ sudo vim /etc/ppp/peers/sim7000
 ```
@@ -167,7 +167,7 @@ In USB devices section. We can see that the modem's port located in `/dev/ttyUSB
 
 Use `pppd` to call the provider's config  (`sim7000`).
 
-```bash
+```shell
 $ sudo pppd call sim7000
 Script /usr/sbin/chat -v -f /etc/ppp/sim7000 finished (pid 8470), status = 0x0
 Serial connection established.
@@ -197,7 +197,7 @@ Connection terminated.
 
 If no error shows up. We can use `ip a` command to verify the connection and check the ip address.
 
-```bash
+```shell
 $ ip a
 1: lo: <LOOPBACK,UP,LOWER_UP> mtu 65536 qdisc noqueue state UNKNOWN group default qlen 1000
     link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
@@ -214,7 +214,7 @@ $ ip a
 
 But how can we actually know whether the IP can communicate with the public network? By simply use `ping` command with `-I` argument with the interface name `ppp0`.
 
-```bash
+```shell
 $ ping -I ppp0 8.8.8.8 -c 4
 PING 8.8.8.8 (8.8.8.8) from 10.174.46.45 ppp0: 56(84) bytes of data.
 64 bytes from 8.8.8.8: icmp_seq=1 ttl=113 time=187 ms
@@ -229,13 +229,13 @@ rtt min/avg/max/mdev = 46.946/157.260/307.272/100.437 ms
 
 Use `ip` command to set the default route to `ppp0` interface. 
 
-```bash
+```shell
 $ sudo ip route add default dev ppp0
 ```
 
 Verify the routing path using `traceroute` command.
 
-```bash
+```shell
 $ traceroute 8.8.8.8
 traceroute to 8.8.8.8 (8.8.8.8), 30 hops max, 60 byte packets
  1  10.156.65.128 (10.156.65.128)  318.093 ms  531.195 ms  530.528 ms
@@ -272,7 +272,7 @@ Alias=sim7000.service
 
 Reload the daemon and start it.
 
- ```bash
+ ```shell
  $ sudo systemctl daemon-reload
  $ sudo systemctl enable --now sim7000
  $ sudo systemctl status sim7000
@@ -301,7 +301,7 @@ Reload the daemon and start it.
 
 Download the deploy script from https://blog.wilicw.dev/files/deploy_sim7000.sh and exectute it (Only works on debian-base distro).
 
-```bash
+```shell
 $ curl https://blog.wilicw.dev/files/deploy_sim7000.sh | bash -
 ```
 
@@ -415,7 +415,7 @@ ABORT		\"NO ANSWER\"
 ABORT		\"DELAYED\"
 ABORT		\"ERROR\"
 ABORT		\"+CGATT: 0\"
-""		AT
+\"\"		AT
 TIMEOUT		12
 OK		ATH
 OK		ATE1
@@ -461,9 +461,11 @@ echo "$peers" | sudo tee /etc/ppp/peers/sim7000
 echo "$chatscript" | sudo tee /etc/ppp/sim7000
 echo "$daemonfile" | sudo tee /etc/systemd/system/sim7000.service
 
-sudo apt clean
-sudo apt update -y
-sudo apt update ppp
+if [ "$(whereis pppd)" == "pppd:" ]; then
+        sudo apt clean
+        sudo apt update -y
+        sudo apt update ppp
+fi
 
 sudo systemctl daemon-reload
 sudo systemctl enable --now sim7000
