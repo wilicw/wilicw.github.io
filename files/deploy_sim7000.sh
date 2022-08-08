@@ -56,9 +56,11 @@ echo "$peers" | sudo tee /etc/ppp/peers/sim7000
 echo "$chatscript" | sudo tee /etc/ppp/sim7000
 echo "$daemonfile" | sudo tee /etc/systemd/system/sim7000.service
 
-sudo apt clean
-sudo apt update -y
-sudo apt update ppp
+if [ "$(whereis pppd)" == "pppd:" ]; then
+        sudo apt clean
+        sudo apt update -y
+        sudo apt update ppp
+fi
 
 sudo systemctl daemon-reload
 sudo systemctl enable --now sim7000
