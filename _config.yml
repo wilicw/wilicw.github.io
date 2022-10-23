@@ -3,7 +3,7 @@ description: >
     Something about network or programming.
 about: 
 master_repo: true
-url: "https://wilicw.github.io"
+url: "https://blog.wilicw.dev"
 markdown: kramdown
 highlighter: rouge
 
