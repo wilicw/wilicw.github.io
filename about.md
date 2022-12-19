@@ -7,7 +7,7 @@ title: About Me
 
 ### 2021~ NCKU CSIE
 
-A student study in collage and do nothing.
+A student study in college and do nothing.
 
 ---
 
